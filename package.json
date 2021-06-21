@@ -1,0 +1,25 @@
+{
+  "name": "cloned_book_library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-coding": "git checkout main && git pull",
+    "scss": " sass --watch ./scss/main.scss:./css/main.css --no-source-map"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thpham1997/book_library.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thpham1997/book_library/issues"
+  },
+  "homepage": "https://github.com/thpham1997/book_library#readme",
+  "dependencies": {
+    "sass": "^1.35.1",
+    "scss": "^0.2.4"
+  }
+}
