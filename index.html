@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/main.css" type="text/css">
+  <script src="main.js" defer></script>
+  <title>Book Library</title>
+</head>
+
+<body>
+  <header class="header">
+    <h1 class="header__title">Thomas's Library</h1>
+  </header>
+  <section class="form">
+    <form action="" class="form__container" method="GET">
+      <label for="title">
+        Title
+        <input type="text" placeholder="Book's title" name="title" required>
+      </label>
+
+      <label for="author">
+        Author
+        <input type="text" placeholder="Book's author" name="author" required>
+      </label>
+
+      <label for="pages">
+        Pages
+        <input type="number" placeholder="Book's number of page" name="pages" required>
+      </label>
+
+      <label for="read">
+        Have you read?
+        <input type="checkbox" name="read">
+      </label>
+
+      <button type="submit" class="form__btn form__btn--submit">Submit</button>
+      <button type="submit" class="form__btn form__btn--close">Close</button>
+    </form>
+  </section>
+
+  <section class="book_list">
+
+
+    <div class="adding_card">
+      <div class="adding_card__symbol"></div>
+    </div>
+  </section>
+
+
+
+</body>
+
+</html>
