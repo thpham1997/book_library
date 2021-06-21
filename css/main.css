@@ -1,0 +1,174 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+*, *::before, *::after {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #0A2463;
+  color: #E2E2E2;
+}
+
+.header {
+  height: 3rem;
+}
+.header__title {
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0;
+  font-size: 2rem;
+}
+
+.book_list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.form {
+  position: fixed;
+  display: none;
+  background-color: bisque;
+  border-radius: 2%;
+  width: 30rem;
+  height: 20rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+.form__container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: space-around;
+}
+.form__container label {
+  color: black;
+  width: 20rem;
+  line-height: 2rem;
+  font-size: 1.2rem;
+}
+.form__container label input {
+  position: absolute;
+  height: 100%;
+  width: 15rem;
+  right: 0;
+  font-size: 1.1rem;
+  text-indent: 0.5rem;
+}
+
+.card {
+  display: block;
+  place-items: center;
+  width: 9rem;
+  height: 11rem;
+  background-color: #247BA0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  width: 11rem;
+  height: 13rem;
+}
+
+.adding_card {
+  display: grid;
+  position: relative;
+  place-items: center;
+  width: 9rem;
+  height: 11rem;
+  background-color: #247BA0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.4s;
+  border-radius: 1rem;
+}
+.adding_card__symbol {
+  font-size: 3rem;
+}
+.adding_card__symbol::before {
+  content: "+";
+}
+.adding_card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  width: 11rem;
+  height: 13rem;
+  cursor: pointer;
+}
+.adding_card:hover .adding_card__symbol {
+  animation-name: spin;
+  animation-duration: 500ms;
+  animation-fill-mode: forwards;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+    font-size: 3rem;
+  }
+  to {
+    transform: rotate(180deg);
+    font-size: 5rem;
+    font-weight: bold;
+  }
+}

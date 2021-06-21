@@ -1,0 +1,36 @@
+
+
+.form{
+  position: fixed;
+  display: none;
+  background-color: bisque;
+  border-radius: 2%;
+  width: 30rem;
+  height: 20rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  &__container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: space-around;
+    label{
+      color: black;
+      width: 20rem;
+      line-height: 2rem;
+      font-size: 1.2rem;
+      input{
+        position: absolute;
+        height: 100%;
+        width: 15rem;
+        right: 0;
+        font-size: 1.1rem;
+        text-indent: 0.5rem;
+      }
+    }
+  }
+
+
+}
