@@ -1,14 +1,15 @@
 
 
 .header{
-  height: 3rem;
+  height: 4rem;
+  background-color: #605f5e;
+  margin-bottom: 1rem;
   &__title{
     display: block;
     position: absolute;
-    height: 100%;
+    line-height: 4rem;
     width: 100%;
     text-align: center;
-    padding: 0.5rem 0;
     font-size: 2rem;
   }
 }

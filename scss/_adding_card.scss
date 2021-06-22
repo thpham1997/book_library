@@ -4,7 +4,8 @@
   place-items: center;
   width: 9rem;
   height: 11rem;
-  background-color: #247BA0;
+  background-color: rgba(23, 31, 31, 0.1);
+  color: #967f52;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.4s;
   border-radius: 1rem;
@@ -16,6 +17,7 @@
   }
 
   &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     width: 11rem;
     height: 13rem;
