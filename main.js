@@ -24,6 +24,30 @@ function addBookToLibrary(book) {
   if (!myLibrary.includes(book)) {
     book['index'] = myLibrary.length;
     myLibrary.push(book);
+    let card = document.createElement('div');
+    let p = document.createElement('p');
+    let deleteBtn = document.createElement('button');
+    let readBtn = document.createElement('button');
+
+    // deleteBtn.classList.add('deleteBtn')
+    // deleteBtn.style.display = 'none';
+    readBtn.addEventListener('click', (e) => {
+      myLibrary[myLibrary.length - 1].isRead();
+      p.textContent = myLibrary[myLibrary.length - 1].info();
+    });
+    deleteBtn.addEventListener('click', (e) => {
+      myLibrary.splice(myLibrary[myLibrary.length - 1].index, 1);
+      BOOKLIST.removeChild(card);
+    });
+    p.textContent = myLibrary[myLibrary.length - 1].info();
+    deleteBtn.textContent = 'Delete';
+    readBtn.textContent = 'Read';
+    p.style.padding = '1rem 1rem';
+    card.appendChild(p);
+    card.appendChild(deleteBtn);
+    card.appendChild(readBtn);
+    card.classList.add('card');
+    BOOKLIST.insertBefore(card, ADDING_CARD);
     return true;
   }
   return false;
@@ -36,6 +60,7 @@ const book2 = new Book('Everything Is Miscellaneous: The Power of the New Digita
 addBookToLibrary(book1);
 addBookToLibrary(book2);
 
+
 ADDING_CARD.addEventListener('click', (e) => {
   FORM.style.display = 'block';
 });
@@ -45,32 +70,3 @@ FORM_BTN_CLOSE.addEventListener('click', (e) => {
 FORM_BTN_SUBMIT.addEventListener('click', (e) => {
   console.log(FORM.element.value);
 });
-function makeCard() {
-  myLibrary.forEach((elm) => {
-    let card = document.createElement('div');
-    let p = document.createElement('p');
-    let deleteBtn = document.createElement('button');
-    let readBtn = document.createElement('button');
-
-    // deleteBtn.classList.add('deleteBtn')
-    // deleteBtn.style.display = 'none';
-    readBtn.addEventListener('click', (e) => {
-      elm.isRead();
-      p.textContent = elm.info();
-    });
-    deleteBtn.addEventListener('click', (e) => {
-      myLibrary.splice(elm.index, 1);
-      BOOKLIST.removeChild(card);
-    });
-    p.textContent = elm.info();
-    deleteBtn.textContent = 'Delete';
-    readBtn.textContent = 'Read';
-    p.style.padding = '1rem 1rem';
-    card.appendChild(p);
-    card.appendChild(deleteBtn);
-    card.appendChild(readBtn);
-    card.classList.add('card');
-    BOOKLIST.insertBefore(card, ADDING_CARD);
-  });
-}
-makeCard();
