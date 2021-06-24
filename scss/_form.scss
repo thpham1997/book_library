@@ -1,6 +1,4 @@
-
-
-.form{
+.form {
   position: fixed;
   display: none;
   background-color: bisque;
@@ -10,18 +8,18 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
-  &__container{
+  &__container {
     display: flex;
     flex-direction: column;
     height: 100%;
     align-items: center;
     justify-content: space-around;
-    label{
+    label {
       color: black;
       width: 20rem;
       line-height: 2rem;
       font-size: 1.2rem;
-      input{
+      input {
         position: absolute;
         height: 100%;
         width: 15rem;
@@ -31,6 +29,4 @@
       }
     }
   }
-
-
 }

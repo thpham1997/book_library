@@ -23,19 +23,19 @@
     height: 13rem;
     cursor: pointer;
   }
-  &:hover &__symbol{
+  &:hover &__symbol {
     animation-name: spin;
     animation-duration: 500ms;
     animation-fill-mode: forwards;
   }
- 
 }
 
 @keyframes spin {
   from {
     transform: rotate(0deg);
     font-size: 3rem;
-  }to{
+  }
+  to {
     transform: rotate(180deg);
     font-size: 5rem;
     font-weight: bold;

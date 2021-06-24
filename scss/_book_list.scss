@@ -1,8 +1,6 @@
-
-
-.book_list{
+.book_list {
   margin: 0 1rem;
   display: grid;
-  grid-template-columns : repeat(5, 1fr);
-
+  // row-gap: 0.5rem;
+  grid-template-columns: repeat(5, 1fr);
 }
