@@ -13,7 +13,7 @@
   button {
     display: none;
   }
-  p {
+  & p {
     position: block;
     transition: 1s;
     width: 12rem;
@@ -34,10 +34,15 @@
     margin: 0;
     font-size: 1rem;
   }
+  & button:hover{
+    height: 1.5rem;
+    font-size: 0.9rem;
+  }
   &:hover button {
     display: block;
     position: absolute;
     width: auto;
+    border-radius: 0.5rem;
     bottom: 0.5rem;
     padding: 0 0.2rem;
     margin: 0 1rem;
@@ -47,6 +52,7 @@
     left: 0.5rem;
   }
   &:hover .readBtn {
-    left: 5rem;
+    left: 4.5rem;
+    width: 4.5rem;
   }
 }
