@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/thpham1997/book_library#readme",
   "dependencies": {
+    "firebase": "^8.6.8",
     "sass": "^1.35.1",
     "scss": "^0.2.4"
   }
