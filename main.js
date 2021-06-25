@@ -1,3 +1,22 @@
+// import firebase from "firebase/app";
+// import 'firebase/analytics';
+// import 'firebase/database';
+// // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// const firebaseConfig = {
+//   apiKey: "AIzaSyC7uLrS94YJE5_xrKepSKQIm7WzC_m3MZY",
+//   authDomain: "my-library-6c34f.firebaseapp.com",
+//   databaseURL: "https://my-library-6c34f-default-rtdb.firebaseio.com",
+//   projectId: "my-library-6c34f",
+//   storageBucket: "my-library-6c34f.appspot.com",
+//   messagingSenderId: "817755436441",
+//   appId: "1:817755436441:web:9fe35027c4bbb915b04f08",
+//   measurementId: "G-X7F25TFPRT"
+// };
+// // Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
+// firebase.analytics();
+// let Firebase = firebase.database();
+
 const BOOKLIST = document.querySelector('.book_list');
 const ADDING_CARD = document.querySelector('.adding_card');
 const FORM = document.querySelector('.form');
@@ -114,3 +133,5 @@ FORM_BTN_SUBMIT.addEventListener('click', (e) => {
   // console.log(addBookToLibrary(book));
 
 });
+
+// text realtime database
