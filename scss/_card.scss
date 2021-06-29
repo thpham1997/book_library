@@ -10,6 +10,7 @@
   border-radius: 1rem;
   font-size: 1.3rem;
   overflow: hidden;
+  margin-bottom: 3rem;
   button {
     display: none;
   }
@@ -26,6 +27,7 @@
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     width: 11rem;
     height: 13rem;
+    margin-bottom: 1rem;
     cursor: pointer;
   }
   &:hover p {
