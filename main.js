@@ -10,9 +10,144 @@ const firebaseConfig = {
   measurementId: "G-X7F25TFPRT"
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-let database = firebase.database();
+// firebase.initializeApp(firebaseConfig);
+// let database = firebase.database();
 // end of initializing Firebase
+
+class Firebase {
+  constructor(config) {
+    this.config = config;
+    firebase.initializeApp(this.config);
+    this.databse = firebase.database();
+  }
+
+  getdatabse() {
+    return this.databse;
+  }
+
+  writeListToDatabase(library) {
+    let bookList = library.getlibrary();
+    for (let i = 0; i < bookList.length; i++) {
+      this.databse.ref('BookList/' + (i)).set({
+        title: bookList[i].gettitle(),
+        author: bookList[i].getauthor(),
+        pages: bookList[i].getpages(),
+        read: bookList[i].getread()
+      });
+    }
+  }
+
+  uploadBookToDatabase(book, library) {
+    let index = library.getBookCount - 1;
+    this.databse.ref('BookList/' + index).set({
+      title: book.gettitle(),
+      author: book.getauthor(),
+      pages: book.getpages(),
+      read: book.getread()
+    });
+  }
+
+  readDatabaseAndVisualze(library) {
+    library.reset();
+    console.log('before getting data');
+    this.getdatabse().ref('BookList').once('value').then((snap) => {
+      console.log('get data');
+      if (snap.exists()) {
+        console.log('getting data');
+        let tmpLibrary = snap.val();
+        console.log(tmpLibrary);
+        if (tmpLibrary.length > 0) (
+          tmpLibrary.forEach(b => {
+            let tmpBook = new book(b.title, b.author, b.pages, b.read);
+            library.addBook(tmpBook);
+            // console.log(tmpBook);
+          }))
+        visualizeBookList(library);
+      } else {
+        console.log('no data');
+      }
+    });
+    console.log('after geting data');
+  }
+
+  deleteAllData() {
+    let ref = this.database.ref('BookList').remove().then(function () {
+      console.log('remove All data succeeded');
+    }).catch(function (error) {
+      console.log('remove failed' + error);
+    });
+  }
+
+  setValueToDatabase(index, name, value) {
+    let ref = this.database.ref('BookList/' + index);
+    ref.child(name).set(value);
+  }
+}
+
+class library {
+  constructor() {
+    this.library = [];
+  }
+
+  setlibrary(value) {
+    this.library = value;
+  }
+
+  getlibrary() {
+    return this.library;
+  }
+  addBook(book) {
+    if (!this.library.some(ele => {
+      ele.title === book.title && ele.author === book.author && ele.pages === book.pages;
+    })) {
+      this.library.push(book);
+      return true;
+    }
+    return false;
+  }
+  removeBook(index) {
+    this.library.splice(index, 1);
+  }
+  getBookCount() {
+    return this.library.length;
+  }
+
+  reset() {
+    this.library = [];
+  }
+
+}
+
+class book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
+  gettitle() {
+    return this.title;
+  }
+  getauthor() {
+    return this.author;
+  }
+  getpages() {
+    return this.pages;
+  }
+  getread() {
+    return this.read;
+  }
+  info() {
+    return `${this.title} by ${this.author}, ${this.pages} pages`;;
+  }
+  readInfo() {
+    return `${this.read ? 'Read' : 'Not Read'}`;
+  }
+  isRead() {
+    this.read = !this.read;
+  }
+}
+
 
 
 const BOOKLIST = document.querySelector('.book_list');
@@ -24,34 +159,19 @@ const TITLE_TEXT_FIELD = document.getElementsByName('title');
 const AUTHOR_TEXT_FIELD = document.getElementsByName('author');
 const PAGE_NUMBER = document.getElementsByName('pages');
 const IS_READ = document.getElementsByName('read');
-let myLibrary = [];
+const myLibrary = new library();
+const myFirebase = new Firebase(firebaseConfig);
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.info = function () {
-    return `${this.title} by ${this.author}, ${this.pages} pages`;
-  }
-  this.readInfo = function () {
-    return `${this.read ? 'Read' : 'Not Read'}`;
-  }
-}
 
-Book.prototype.isRead = function () {
-  this.read = !this.read;
-}
-
-function addBookToLibrary(book) {
-  if(!myLibrary.some(ele =>{
-    ele.title === book.title && ele.author === book.author && ele.pages === book.pages;
-  })){
-    myLibrary.push(book);
-    return true;
-  }
-  return false;
-}
+// function addBookToLibrary(book) {
+//   if (!myLibrary.some(ele => {
+//     ele.title === book.title && ele.author === book.author && ele.pages === book.pages;
+//   })) {
+//     myLibrary.push(book);
+//     return true;
+//   }
+//   return false;
+// }
 
 function makeCard(book) {
   let card = document.createElement('div');
@@ -63,24 +183,24 @@ function makeCard(book) {
   readBtn.classList.add('readBtn');
   deleteBtn.textContent = 'Delete';
   readBtn.textContent = book.readInfo();
-  readBtn.style.backgroundColor = book.read ? '#52b69a' : '#d4534a';
-  readBtn.style.color = book.read ? 'black' : 'white';
+  readBtn.style.backgroundColor = book.getread() ? '#52b69a' : '#d4534a';
+  readBtn.style.color = book.getread() ? 'black' : 'white';
 
   readBtn.addEventListener('click', (e) => {
     let index = Number(e.target.parentNode.getAttribute('data-index'));
-    myLibrary[index].isRead();
-    setValueToDatabase(index, 'read', myLibrary[index].read);
-    e.target.textContent = myLibrary[index].readInfo();
-    e.target.style.backgroundColor = myLibrary[index].read ? '#52b69a' : '#d4534a';
-    e.target.style.color = book.read ? 'black' : 'white';
+    myLibrary.getlibrary()[index].isRead();
+    myFirebase.setValueToDatabase(index, 'read', myLibrary.getlibrary()[index].getread());
+    e.target.textContent = myLibrary.getlibrary()[index].readInfo();
+    e.target.style.backgroundColor = myLibrary.getlibrary()[index].getread() ? '#52b69a' : '#d4534a';
+    e.target.style.color = book.getread() ? 'black' : 'white';
   });
   deleteBtn.addEventListener('click', (e) => {
     let index = Number(e.target.parentNode.getAttribute('data-index'));
     BOOKLIST.removeChild(e.target.parentNode);
-    myLibrary.splice(index, 1);
+    myLibrary.removeBook(index);
     updateIndex();
-    deleteAllData();
-    writeListToDatabase(myLibrary);
+    myFirebase.deleteAllData();
+    myFirebase.writeListToDatabase(myLibrary);
   });
 
   p.textContent = book.info();
@@ -94,9 +214,10 @@ function makeCard(book) {
 
 function visualizeBookList(bookList) {
   console.log('making cards');
+  let library = myLibrary.getlibrary();
   // make card for each book and visualize them
-  for (let i = 0; i < myLibrary.length; i++) {
-    let book = myLibrary[i];
+  for (let i = 0; i < library.length; i++) {
+    let book = library[i];
     makeCard(book);
   }
   updateIndex();
@@ -125,82 +246,78 @@ FORM_BTN_SUBMIT.addEventListener('click', (e) => {
   let author = AUTHOR_TEXT_FIELD[0].value;
   let pages = Number(PAGE_NUMBER[0].value);
   let isRead = IS_READ[0].checked ? true : false;
-  let book = new Book(title, author, pages, isRead);
+  let mybook = new book(title, author, pages, isRead);
   TITLE_TEXT_FIELD[0].value = '';
   AUTHOR_TEXT_FIELD[0].value = '';
   PAGE_NUMBER[0].value = '';
   IS_READ[0].checked = false;
   e.target.parentNode.parentNode.style.display = 'none';
-  if(addBookToLibrary(book)){
+  if (myLibrary.addBook(mybook)) {
     console.log('added book');
-    uploadBookToDatabase(book);
-    makeCard(book);
+    myFirebase.uploadBookToDatabase(mybook, myLibrary);
+    makeCard(mybook);
   }
   // visualizeBookList(myLibrary);
 });
 
+myFirebase.readDatabaseAndVisualze(myLibrary);
+
 // test realtime database
 
-function writeListToDatabase(bookList) {
-  for (let i = 0; i < bookList.length; i++) {
-    firebase.database().ref('BookList/' + (i)).set({
-      title: bookList[i].title,
-      author: bookList[i].author,
-      pages: bookList[i].pages,
-      read: bookList[i].read
-    });
-  }
-}
-function uploadBookToDatabase(book) {
-  let index = myLibrary.length - 1;
-  firebase.database().ref('BookList/' + index).set({
-    title: book.title,
-    author: book.author,
-    pages: book.pages,
-    read: book.read
-  });
-}
+// function writeListToDatabase(bookList) {
+//   for (let i = 0; i < bookList.length; i++) {
+//     firebase.database().ref('BookList/' + (i)).set({
+//       title: bookList[i].title,
+//       author: bookList[i].author,
+//       pages: bookList[i].pages,
+//       read: bookList[i].read
+//     });
+//   }
+// }
+// function uploadBookToDatabase(book) {
+//   let index = myLibrary.length - 1;
+//   firebase.database().ref('BookList/' + index).set({
+//     title: book.title,
+//     author: book.author,
+//     pages: book.pages,
+//     read: book.read
+//   });
+// }
 
-function readDatabaseAndVisualze() {
-  myLibrary.splice(0, myLibrary.length);
-  console.log('before getting data');
-  database.ref('BookList').once('value').then((snap) => {
-    console.log('get data');
-    if (snap.exists()) {
-      console.log('getting data');
-      let tmpLibrary = snap.val();
-      if (tmpLibrary.length > 0) (
-        tmpLibrary.forEach(book => {
-          let tmpBook = new Book(book.title, book.author, book.pages, book.read);
-          myLibrary.push(tmpBook);
-          // console.log(tmpBook);
-        }))
-      visualizeBookList(myLibrary);
-    } else {
-      console.log('no data');
-    }
-  });
-  console.log('after geting data');
-}
-function deleteAllData() {
-  let ref = database.ref('BookList').remove().then(function () {
-    console.log('remove All data succeeded');
-  }).catch(function (error) {
-    console.log('remove failed' + error);
-  });
-}
-// function deleteItemFromDatabase(index) {
-//   let ref = database.ref('BookList/' + index).remove().then(function () {
-//     console.log('remove succeeded:' + index);
+// function readDatabaseAndVisualze() {
+//   myLibrary.splice(0, myLibrary.length);
+//   console.log('before getting data');
+//   database.ref('BookList').once('value').then((snap) => {
+//     console.log('get data');
+//     if (snap.exists()) {
+//       console.log('getting data');
+//       let tmpLibrary = snap.val();
+//       if (tmpLibrary.length > 0) (
+//         tmpLibrary.forEach(book => {
+//           let tmpBook = new Book(book.title, book.author, book.pages, book.read);
+//           myLibrary.push(tmpBook);
+//           // console.log(tmpBook);
+//         }))
+//       visualizeBookList(myLibrary);
+//     } else {
+//       console.log('no data');
+//     }
+//   });
+//   console.log('after geting data');
+// }
+// function deleteAllData() {
+//   let ref = database.ref('BookList').remove().then(function () {
+//     console.log('remove All data succeeded');
 //   }).catch(function (error) {
 //     console.log('remove failed' + error);
 //   });
 // }
 
-function setValueToDatabase(index, name, value) {
-  let ref = database.ref('BookList/' + index);
-  ref.child(name).set(value);
-}
+// function setValueToDatabase(index, name, value) {
+//   let ref = database.ref('BookList/' + index);
+//   ref.child(name).set(value);
+// }
 
-readDatabaseAndVisualze();
-// visualizeBookList(myLibrary);
+// readDatabaseAndVisualze();
+
+
