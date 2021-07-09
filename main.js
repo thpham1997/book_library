@@ -18,17 +18,17 @@ class Firebase {
   constructor(config) {
     this.config = config;
     firebase.initializeApp(this.config);
-    this.databse = firebase.database();
+    this.database = firebase.database();
   }
 
   getdatabse() {
-    return this.databse;
+    return this.database;
   }
 
   writeListToDatabase(library) {
     let bookList = library.getlibrary();
     for (let i = 0; i < bookList.length; i++) {
-      this.databse.ref('BookList/' + (i)).set({
+      this.database.ref('BookList/' + (i)).set({
         title: bookList[i].gettitle(),
         author: bookList[i].getauthor(),
         pages: bookList[i].getpages(),
@@ -38,8 +38,8 @@ class Firebase {
   }
 
   uploadBookToDatabase(book, library) {
-    let index = library.getBookCount - 1;
-    this.databse.ref('BookList/' + index).set({
+    let index = library.getBookCount() - 1;
+    this.database.ref('BookList/' + index).set({
       title: book.gettitle(),
       author: book.getauthor(),
       pages: book.getpages(),
@@ -98,7 +98,7 @@ class library {
   }
   addBook(book) {
     if (!this.library.some(ele => {
-      ele.title === book.title && ele.author === book.author && ele.pages === book.pages;
+      ele.gettitle() === book.gettitle() && ele.getauthor() === book.getauthor() && ele.getpages() === book.getpages();
     })) {
       this.library.push(book);
       return true;
@@ -209,6 +209,7 @@ function makeCard(book) {
   card.appendChild(deleteBtn);
   card.appendChild(readBtn);
   card.classList.add('card');
+  card.setAttribute('data-index', BOOKLIST.children.length - 2)
   BOOKLIST.insertBefore(card, ADDING_CARD);
 }
 
