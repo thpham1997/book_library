@@ -209,14 +209,9 @@ function makeCard(book) {
   card.appendChild(deleteBtn);
   card.appendChild(readBtn);
   card.classList.add('card');
-<<<<<<< HEAD
   card.setAttribute('data-index', BOOKLIST.children.length - 1);
-=======
-  card.setAttribute('data-index', BOOKLIST.children.length - 1)
->>>>>>> a12c072d158f271f1b4a21f7b71354de76ee3571
   BOOKLIST.insertBefore(card, ADDING_CARD);
 }
-
 function visualizeBookList(bookList) {
   console.log('making cards');
   let library = myLibrary.getlibrary();
