@@ -89,6 +89,7 @@ function makeCard(book) {
   card.appendChild(deleteBtn);
   card.appendChild(readBtn);
   card.classList.add('card');
+  card.setAttribute('data-index', BOOKLIST.children.length - 1);
   BOOKLIST.insertBefore(card, ADDING_CARD);
 }
 
